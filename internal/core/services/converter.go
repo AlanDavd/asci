@@ -47,7 +47,6 @@ func (c *asciiConverter) ConvertToFile(input io.Reader, outputPath string, optio
 	if err != nil {
 		return err
 	}
-
 	return os.WriteFile(outputPath, []byte(ascii), 0644)
 }
 
@@ -69,41 +68,36 @@ func (c *asciiConverter) imageToASCII(img image.Image, opts *ports.ConvertOption
 	// Convert to ASCII
 	var builder strings.Builder
 	charsetLen := len(opts.Charset)
-	
+
 	for y := 0; y < newHeight; y++ {
 		for x := 0; x < newWidth; x++ {
 			// Map image coordinates to original image
 			srcX := x * width / newWidth
 			srcY := y * height / newHeight
-			
+
 			// Get pixel color
 			c := img.At(srcX, srcY)
 			r, g, b, _ := c.RGBA()
-			
+
 			// Calculate brightness (0-255)
 			brightness := (r + g + b) / 3 / 256
-			
 			// Map brightness to character
 			if opts.Inverted {
 				brightness = 65535 - brightness
 			}
-			
 			charIndex := int(float64(brightness) * float64(charsetLen-1) / 65535)
 			char := string(opts.Charset[charIndex])
-			
 			if opts.Colored {
 				// Add ANSI color codes here if colored output is desired
 				builder.WriteString("\x1b[38;2;" + strconv.Itoa(int(r/256)) + ";" + strconv.Itoa(int(g/256)) + ";" + strconv.Itoa(int(b/256)) + "m")
 			}
-			
 			builder.WriteString(char)
 		}
 		builder.WriteString("\n")
 	}
-	
+
 	if opts.Colored {
 		builder.WriteString("\x1b[0m") // Reset colors
 	}
-	
 	return builder.String()
 } 

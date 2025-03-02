@@ -159,4 +159,4 @@ func sendJSONResponse(w http.ResponseWriter, response ConvertResponse, status in
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(response)
-} 
+}

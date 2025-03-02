@@ -6,7 +6,6 @@ import "io"
 type ImageToASCIIConverter interface {
 	// Convert converts an image to ASCII art
 	Convert(input io.Reader, options ...ConvertOption) (string, error)
-	
 	// ConvertToFile converts an image to ASCII art and saves it to a file
 	ConvertToFile(input io.Reader, outputPath string, options ...ConvertOption) error
 }
@@ -28,8 +27,8 @@ func DefaultOptions() *ConvertOptions {
 	return &ConvertOptions{
 		Width:    80,
 		Height:   0, // Auto-calculate based on aspect ratio
-		Charset:  "@%#*+=-:. ",  // Reversed charset for better visibility on light backgrounds
+		Charset:  "@%#*+=-:. ", // Reversed charset for better visibility on light backgrounds
 		Colored:  false,
 		Inverted: false,
 	}
-} 
+}

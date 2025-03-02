@@ -65,4 +65,4 @@ func main() {
 		}
 		fmt.Print(result)
 	}
-} 
+}
